@@ -11,7 +11,6 @@
         $(function() {
             $("#searchChampionTextbox").on("keyup", function() {
                 var searchChampionText = $("#searchChampionTextbox").val();
-                console.log($("#searchChampionTextbox").val())
                 if ($("#searchChampionTextbox").val().length == 0 || $("#searchChampionTextbox").val() == "") {
                     $(".championDiv").show();
                 }
@@ -37,18 +36,42 @@
     <div class="row" id="champions">
         {% for championJson in heroList["hero"] %}
             {% if championJson["alias"] in championNickname %}
-                <div class="col-md-2 col-sm-3 col-xs-6 championDiv" id="{{championJson["alias"]}}" name="{{championNickname[championJson["alias"]]}}">
+                <div class="col-md-2 col-sm-3 col-xs-6 championDiv" id="{{championJson["alias"]}}" name="{{championNickname[championJson["alias"]]}} championJson">
             {% else %}
                 <div class="col-md-2 col-sm-3 col-xs-6 championDiv" id="{{championJson["alias"]}}" name="{{ championJson["title"] }} {{ championJson["name"] }}">
             {% endif %}
-             <div class="thumbnail">
-                  <img src="//game.gtimg.cn/images/lol/act/img/champion/{{championJson["alias"]}}.png" class="img-rounded" style="margin-top:20px;width: 50px";height="50px">
-                  <div class="caption">
+             <div class="thumbnail" style="position: relative;">
+                 <img src="//game.gtimg.cn/images/lol/act/img/champion/{{championJson["alias"]}}.png" class="img-rounded" style="margin-top:20px;width: 50px";height="50px">
+                 <div class="caption" style="margin: -82px -10px 10px;position: absolute;">
+                 {% for role in championJson["roles"] %}
+                     {% if role == "mage" %}
+                         <span class="label label-info">法师</span>
+                     {% else %}
+                     {% if role == "tank" %}
+                         <span class="label label-warning">坦克</span>
+                     {% else %}
+                     {% if role == "fighter" %}
+                         <span class="label label-success">战士</span>
+                     {% else %}
+                     {% if role == "assassin" %}
+                         <span class="label label-danger">刺客</span>
+                     {% else %}
+                     {% if role == "support" %}
+                         <span class="label label-default">辅助</span>
+                     {% else %}
+                     {% if role == "marksman" %}
+                         <span class="label label-primary">射手</span>
+                     {% else %}
+                         <span class="label label-default">{{role}}</span>
+                     {% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+                 {% endfor %}
+                 </div>
+                 <div class="caption">
                     <h5 class="championNameinDiv text-center">{{championJson["name"]}}</h5>
                     <div class="btn-group championInfoinDiv " role="group" style="position:relative; margin-left: 13%;">
                         <a class="btn btn-primary" href="/brief?championName={{championJson["alias"]}}" role="button">详情</a>
                         <a class="btn btn-default .hidden-xs .hidden-sm" href="/rune?championName={{championJson["alias"]}}" role="button">符文</a>
-                        <!---<a class="btn btn-default" href="/item?championName={{championJson["alias"]}}" role="button">物品</a>---!>
+                        <!--<a class="btn btn-default" href="/item?championName={{championJson["alias"]}}" role="button">物品</a> -->
                     </div>
                   </div>
                 </div>
