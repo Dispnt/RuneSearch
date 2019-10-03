@@ -30,19 +30,19 @@ def brief(championName):
     content = soup.prettify()
     return content
 
-@app.route('/beta')
+@app.route('/b4')
 def mainBeta():
     db = sqlite3.connect("ChampionNickname.sqlite")
     crsr = db.execute("select * from Name")
     championNickname = dict(crsr.fetchall())
-    return render_template("MainBootstrap4.html", heroList=heroList, championNickname = championNickname) #Main.html
+    return render_template("MainBootstrap4.html", heroList=heroList, championNickname = championNickname)
 
 @app.route('/')
 def main():
     db = sqlite3.connect("ChampionNickname.sqlite")
     crsr = db.execute("select * from Name")
     championNickname = dict(crsr.fetchall())
-    return render_template("Main.html", heroList=heroList, championNickname = championNickname) #Main.html
+    return render_template("Main.html", heroList=heroList, championNickname = championNickname)
 
 
 @app.route('/rune')
