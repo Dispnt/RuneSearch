@@ -23,7 +23,13 @@
     </style>
 </head>
 <body>
-
+    <div class="alert alert-success" style="position: fixed;z-index: 2;width: 160px; bottom: 10px">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">
+		&times;
+	</button>
+	<a href="/beta" class="alert-link">Bootstrap 4 版   (实验性)</a>
+</div>
 
     <div class="container panel panel-default" style="margin-top: 20px " >
       <div class="panel-body">
@@ -36,9 +42,9 @@
     <div class="row" id="champions">
         {% for championJson in heroList["hero"] %}
             {% if championJson["alias"] in championNickname %}
-                <div class="col-md-2 col-sm-3 col-xs-6 championDiv" id="{{championJson["alias"]}}" name="{{championNickname[championJson["alias"]]}} championJson">
+                <div class="col-lg-2 col-sm-4 col-lg-3 col-xs-6 championDiv" id="{{championJson["alias"]}}" name="{{championNickname[championJson["alias"]]}} championJson">
             {% else %}
-                <div class="col-md-2 col-sm-3 col-xs-6 championDiv" id="{{championJson["alias"]}}" name="{{ championJson["title"] }} {{ championJson["name"] }}">
+                <div class="col-lg-2 col-sm-4 col-lg-3 col-xs-6 championDiv" id="{{championJson["alias"]}}" name="{{ championJson["title"] }} {{ championJson["name"] }}">
             {% endif %}
              <div class="thumbnail" style="position: relative;">
                  <img src="//game.gtimg.cn/images/lol/act/img/champion/{{championJson["alias"]}}.png" class="img-rounded" style="margin-top:20px;width: 50px";height="50px">
@@ -66,11 +72,11 @@
                      {% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
                  {% endfor %}
                  </div>
-                 <div class="caption">
+                 <div class="caption text-center" style="margin-top: -10px; margin-bottom: 0px">
                     <h5 class="championNameinDiv text-center">{{championJson["name"]}}</h5>
-                    <div class="championInfoinDiv col-sm-offset-1 col-xs-offset-2" role="group">
+                    <div class="championInfoinDiv">
                         <a class="btn btn-primary" href="/brief?championName={{championJson["alias"]}}" role="button">详情</a>
-                        <a class="btn btn-default hidden-md" href="/rune?championName={{championJson["alias"]}}" role="button">符文</a>
+                        <a class="btn btn-default" href="/rune?championName={{championJson["alias"]}}" role="button">符文</a>
                         <!--<a class="btn btn-default" href="/item?championName={{championJson["alias"]}}" role="button">物品</a> -->
                     </div>
                   </div>
