@@ -11,9 +11,9 @@
         $(function() {
             $("#searchChampionTextbox").on("keyup", function() {
                 var searchChampionText = $("#searchChampionTextbox").val();
-                if ($("#searchChampionTextbox").val().length == 0 || $("#searchChampionTextbox").val() == "") {
-                    $(".championDiv").show();
-                }
+                $("#searchChampionTextbox").focus(function(){
+                  $(".championDiv").show();
+                });
                 $(".championDiv").hide();
                 $(".championDiv[name*='"+searchChampionText+"']").show();
             });
@@ -27,7 +27,7 @@
 
     <div class="container panel panel-default" style="margin-top: 20px " >
       <div class="panel-body">
-              <input type="text" class="form-control input-lg" id="searchChampionTextbox" placeholder="查询英雄...">
+          <input type="text" class="form-control input-lg" id="searchChampionTextbox" placeholder="查询英雄...">
       </div>
     </div>
 
@@ -68,9 +68,9 @@
                  </div>
                  <div class="caption">
                     <h5 class="championNameinDiv text-center">{{championJson["name"]}}</h5>
-                    <div class="btn-group championInfoinDiv " role="group" style="position:relative; margin-left: 13%;">
+                    <div class="championInfoinDiv col-sm-offset-1 col-xs-offset-2" role="group">
                         <a class="btn btn-primary" href="/brief?championName={{championJson["alias"]}}" role="button">详情</a>
-                        <a class="btn btn-default .hidden-xs .hidden-sm" href="/rune?championName={{championJson["alias"]}}" role="button">符文</a>
+                        <a class="btn btn-default hidden-md" href="/rune?championName={{championJson["alias"]}}" role="button">符文</a>
                         <!--<a class="btn btn-default" href="/item?championName={{championJson["alias"]}}" role="button">物品</a> -->
                     </div>
                   </div>
@@ -80,7 +80,7 @@
         {% endfor %}
     </div>
     </div>
-<ol class="breadcrumb container">
+<ol class="container breadcrumb">
   <li><a href="https://www.dispnt.com">dispnt.com</a></li>
   <li><a href="https://op.gg">OP.GG</a></li>
   <li class="active">opgg.dispnt.com</li>
