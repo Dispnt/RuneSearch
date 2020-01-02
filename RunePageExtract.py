@@ -1,4 +1,11 @@
-from app import *
+from bs4 import BeautifulSoup
+import requests
+import re
+
+header = {
+    'User-Agent': 'Mozilla/5.0 (Linux; Android 4.4.2; R8207 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36; OP.GG Mobile Android (4.8.0); X-DEVICE-WIDTH=540',
+    'Accept-Language': 'zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3'
+}
 
 def rune(championName):
     SelectedRuneName = []
