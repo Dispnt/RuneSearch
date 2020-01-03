@@ -8,7 +8,7 @@ header = {
 }
 
 def rune(championName):
-    SelectedRuneName = []
+    SelectedRuneName = {}
     SelectedRuneImgLink = []
     SelectedRuneImgID = []
     url = "http://www.op.gg/champion/" + championName + "/statistics/"
@@ -16,16 +16,20 @@ def rune(championName):
     soup = BeautifulSoup(r, 'html.parser')
     RuneHtml = soup.find('div', {'class': 'rune-setting'})
     SelectedRuneHtml = RuneHtml.find_all(class_='perk-page__item--active')
+    key_and_count = [1,1]
     for SelectedRune in SelectedRuneHtml:
-        SelectedRuneName.append(SelectedRune.find('img')['alt'])
+        if key_and_count[1]<=6:
+            SelectedRuneName.setdefault(key_and_count[0], []).append(SelectedRune.find('img')['alt'])
+        else:
+            key_and_count = [key_and_count[0] + 1,1]
+            SelectedRuneName.setdefault(key_and_count[0], []).append(SelectedRune.find('img')['alt'])
+        key_and_count[1]=key_and_count[1] + 1
         SelectedRuneImgLink.append(SelectedRune.find('img')['src'])
     for SelectedRune in SelectedRuneImgLink:
         SelectedRuneImgID.append(re.findall(r"\d\d\d\d.png", SelectedRune)[0])
     return SelectedRuneName, SelectedRuneImgID
 
 
-(SelectedRuneName, SelectedRuneImgID) = rune(championName = "Annie")
-for a in SelectedRuneName:
-    print(a)
-for b in SelectedRuneImgID:
-    print(b)
+
+#(SelectedRuneName, SelectedRuneImgID) = rune(championName = "Annie")
+# print(SelectedRuneName)
