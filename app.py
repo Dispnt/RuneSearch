@@ -14,6 +14,7 @@ header = {
     'Accept-Language': 'zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3'
 }
 
+
 def brief(championName):
     url = 'http://www.op.gg/champion/' + championName + '/statistics/'
     r = requests.get(url, headers=header).text
@@ -21,6 +22,7 @@ def brief(championName):
     soup.find('div', {'class': 'ratio-graph'}).decompose()
     content = soup.prettify()
     return content
+
 
 @app.route('/b4')
 def mainBeta():
@@ -34,15 +36,22 @@ def main():
     db = sqlite3.connect("ChampionNickname.sqlite")
     crsr = db.execute("select * from Name")
     championNickname = dict(crsr.fetchall())
-    return render_template("Main.html", heroList=heroList, championNickname = championNickname)
-
+    return render_template("Main.html", heroList=heroList, championNickname=championNickname)
 
 @app.route('/rune')
 def runeClicked():
     championName = request.args.get('championName')
-    (SelectedRuneName, SelectedRuneImgID) = rune(championName=championName)
-    return jsonify(SelectedRuneName)
-
+    (selectedRuneNames, selectedRuneImgIDs) = rune(championName=championName)
+    selectedMainRune = runelist(selectedRuneImgIDs[1])
+    selectedSubRune = runelist(selectedRuneImgIDs[4])
+    return render_template("rune.html", mainRune=selectedMainRune, subRune=selectedSubRune, selectedRumeImgIDs=selectedRuneImgIDs, runetext=selectedRuneNames)
+    # return jsonify(SelectedRuneName)
+# {
+# "1":["电刑","恶意中伤","眼球收集器","无情猎手","迅捷","风暴聚集"],
+# "2":["电刑","恶意中伤","眼球收集器","无情猎手","迅捷","风暴聚集"],
+# "3":["电刑","血之滋味","眼球收集器","无情猎手","完美时机","星界洞悉"],
+# "4":["电刑","恶意中伤","眼球收集器","无情猎手","完美时机","饼干配送"]
+# }
 
 @app.route('/brief')
 def briefClicked():
