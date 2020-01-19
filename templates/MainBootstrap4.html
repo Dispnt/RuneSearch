@@ -32,9 +32,9 @@
         <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
             {% for championJson in heroList["hero"] %}
                 {% if championJson["alias"] in championNickname %}
-                    <div class="col-xl-2 col-sm-4 col-lg-3 col-6 championDiv" id="{{championJson["alias"]}}" name="{{championNickname[championJson["alias"]]}} championJson" style="margin-bottom: 10px;">
+                    <div class="col-xl-2 col-sm-4 col-lg-3 col-6 championDiv" id="{{championJson["alias"]}}" name="{{championJson["alias"]| lower}} {{championNickname[championJson["alias"]]}} championJson" style="margin-bottom: 10px;">
                 {% else %}
-                    <div class="col-xl-2 col-sm-4 col-lg-3 col-6 championDiv" id="{{championJson["alias"]}}" name="{{ championJson["title"] }} {{ championJson["name"] }}" style="margin-bottom: 10px;" >
+                    <div class="col-xl-2 col-sm-4 col-lg-3 col-6 championDiv" id="{{championJson["alias"]}}" name="{{championJson["alias"]| lower}} {{ championJson["title"] }} {{ championJson["name"] }}" style="margin-bottom: 10px;" >
                 {% endif %}
                 <div class="card text-center">
                     <img class="card-img-top rounded" src="//game.gtimg.cn/images/lol/act/img/champion/{{championJson["alias"]}}.png"
