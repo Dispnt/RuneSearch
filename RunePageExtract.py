@@ -36,7 +36,7 @@ precisionImg = [["8005", "8008", "8021", "8010"],
 def rune(championName):
     SelectedRuneName = {}
     SelectedRuneImgLink = []
-    SelectedRuneImgID = []
+    SelectedRuneImgID = {}
     url = "http://www.op.gg/champion/" + championName + "/statistics/"
     r = requests.get(url, headers=header).text
     soup = BeautifulSoup(r, 'html.parser')
@@ -44,20 +44,26 @@ def rune(championName):
     SelectedRuneHtml = RuneHtml.find_all(class_='perk-page__item--active')
     key_and_count = [1, 1]
     for SelectedRune in SelectedRuneHtml:
+        SelectedRuneImgLink.append(SelectedRune.find('img')['src'])
         if key_and_count[1] <= 6:
             SelectedRuneName.setdefault(key_and_count[0], []).append(SelectedRune.find('img')['alt'])
         else:
             key_and_count = [key_and_count[0] + 1, 1]
             SelectedRuneName.setdefault(key_and_count[0], []).append(SelectedRune.find('img')['alt'])
         key_and_count[1] = key_and_count[1] + 1
-        SelectedRuneImgLink.append(SelectedRune.find('img')['src'])
+    key_and_count = [1, 1]
     for SelectedRune in SelectedRuneImgLink:
-        if len(SelectedRuneImgID) <= 6:
-            SelectedRuneImgID.append(re.findall(r"\d\d\d\d", SelectedRune)[0])
+        if key_and_count[1] <= 6:
+            SelectedRuneImgID.setdefault(key_and_count[0], []).append(re.findall(r"\d\d\d\d", SelectedRune)[0])
+        else:
+            key_and_count = [key_and_count[0] + 1, 1]
+            SelectedRuneImgID.setdefault(key_and_count[0], []).append(re.findall(r"\d\d\d\d", SelectedRune)[0])
+        key_and_count[1] = key_and_count[1] + 1
     return SelectedRuneName, SelectedRuneImgID
 
 
-def runelist(selectedRuneImgIDs, row=1):
+
+def runeType(selectedRuneImgIDs, row=1):
     if selectedRuneImgIDs in resoveImg[row]:
         return resoveImg
     elif selectedRuneImgIDs in inspirationImg[row]:
@@ -69,11 +75,7 @@ def runelist(selectedRuneImgIDs, row=1):
     elif selectedRuneImgIDs in precisionImg[row]:
         return precisionImg
     else:
-        return runelist(selectedRuneImgIDs, 2)
+        return runeType(selectedRuneImgIDs, 2)
 
 # (SelectedRuneNames, SelectedRuneImgIDs) = rune(championName = "Galio")
 # print(SelectedRuneNames)
-# {1: ['电刑', '恶意中伤', '眼球收集器', '无情猎手', '迅捷', '风暴聚集'], 2: ['电刑', '恶意中伤', '眼球收集器', '无情猎手', '迅捷', '风暴聚集'], 3: ['电刑', '血之滋味', '眼球收集器', '无情猎手', '完美时机', '星界洞悉'], 4: ['电刑', '恶意中伤', '眼球收集器', '无情猎手', '完美时机', '饼干配送']}
-# print(SelectedRuneImgIDs)
-# SelectedRuneImgID1 = ['8128', '8124', '8138', '8105', '8234', '8236', '8112', '8126', '8138', '8105', '8234', '8236','8112', '8139', '8138', '8105', '8313', '8347', '8112', '8126', '8138', '8105', '8313', '8345']
-# print(len(resoveImg[0]))

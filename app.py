@@ -34,10 +34,20 @@ def main():
 def runeClicked():
     championName = request.args.get('championName')
     (selectedRuneNames, selectedRuneImgIDs) = rune(championName=championName)
-    selectedMainRune = runelist(selectedRuneImgIDs[1])
-    selectedSubRune = runelist(selectedRuneImgIDs[4])
-    return render_template("rune.html", mainRune=selectedMainRune, subRune=selectedSubRune, selectedRumeImgIDs=selectedRuneImgIDs, runetext=selectedRuneNames)
-    # return jsonify(SelectedRuneName)
+    MainRune1 = runeType(selectedRuneImgIDs[1][1])
+    SubRune1 = runeType(selectedRuneImgIDs[1][4])
+
+    MainRune2 = runeType(selectedRuneImgIDs[4][1])
+    SubRune2 = runeType(selectedRuneImgIDs[4][4])
+
+    return render_template("rune.html", mainRune1=MainRune1, subRune1=SubRune1, mainRune2=MainRune2, subRune2=SubRune2,
+                           selectedRumeImgIDs=selectedRuneImgIDs, runetext=selectedRuneNames)
+
+
+# {"1":["8112","8126","8138","8105","8234","8236"],
+# "2":["8112","8126","8138","8105","8234","8236"],
+# "3":["8112","8139","8138","8105","8313","8347"],
+# "4":["8112","8139","8138","8105","8313","8321"]}
 # {
 # "1":["电刑","恶意中伤","眼球收集器","无情猎手","迅捷","风暴聚集"],
 # "2":["电刑","恶意中伤","眼球收集器","无情猎手","迅捷","风暴聚集"],

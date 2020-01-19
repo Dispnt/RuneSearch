@@ -1,53 +1,136 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-		<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.js"></script>
-		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-	</head>
-	<body>
-		<div class="container" id="1">
-			<div class="row">
-				<div class="col-6">
-                    {% for row in mainRune %}
-                        <ul class="list-group list-group-horizontal justify-content-center">
-                            {% for imgID in row %}
-                                {% if imgID in selectedRumeImgIDs %}
-                                      <li class="list-group-item active" title="RuneName"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png" height="32"></li>
-                                 {% else %}
-                                      <li class="list-group-item" title="RuneName"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png" height="32"></li>
-                                 {% endif %}
-                               {% endfor %}
-                        </ul>
+<head>
+    <meta charset="utf-8">
+    <title>Rune Data...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        .mtop {
+            margin-top: 15px !important;
+            margin-bottom: 15px !important;
+        }
+    </style>
+</head>
+<body>
+<div class="container mtop" id="1">
+    <div class="row">
+        <div class="card container text-center mtop">
+            <div class="card-body">
+                {% for text in runetext[1] %}
+                    {{ text }}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-6">
+            {% for row in mainRune1 %}
+                <ul class="list-group list-group-horizontal justify-content-center">
+                    {% for imgID in row %}
+                        {% if imgID in selectedRumeImgIDs[1] %}
+                            <li class="list-group-item active" title="RuneName"><img
+                                    src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png"
+                                    height="32"></li>
+                        {% else %}
+                            <li class="list-group-item" title="RuneName"><img
+                                    src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png"
+                                    height="32"></li>
+                        {% endif %}
                     {% endfor %}
-				</div>
-                <div class="col-6">
-                    {% for row in subRune[1:] %}
-                        <ul class="list-group list-group-horizontal justify-content-center">
-                            {% for imgID in row %}
-                                 {% if imgID in selectedRumeImgIDs %}
-                                      <li class="list-group-item active" title="RuneName"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png" height="32"></li>
-                                 {% else %}
-                                      <li class="list-group-item" title="RuneName"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png" height="32"></li>
-                                 {% endif %}{% endfor %}
-                        </ul>
-                    {% endfor %}
-				</div>
+                </ul>
+            {% endfor %}
+        </div>
+        <div class="col-6">
+            {% for row in subRune1[1:] %}
+                <ul class="list-group list-group-horizontal justify-content-center">
+                    {% for imgID in row %}
+                        {% if imgID in selectedRumeImgIDs[1] %}
+                            <li class="list-group-item active" title="RuneName"><img
+                                    src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png"
+                                    height="32"></li>
+                        {% else %}
+                            <li class="list-group-item" title="RuneName"><img
+                                    src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png"
+                                    height="32"></li>
+                        {% endif %}{% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
 
-{#				<div class="col-2">#}
-{#					<ul class="list-group list-group-flush justify-content-center">#}
-{#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
-{#							 height="32"></li>#}
-{#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
-{#							 height="32"></li>#}
-{#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
-{#							 height="32"></li>#}
-{#					</ul>#}
-{#				</div>#}
-			</div>
-		</div>
-		<div class="dropdown-divider"></div>
-	</body>
+    {#				<div class="col-2">#}
+    {#					<ul class="list-group list-group-flush justify-content-center">#}
+    {#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
+    {#							 height="32"></li>#}
+    {#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
+    {#							 height="32"></li>#}
+    {#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
+    {#							 height="32"></li>#}
+    {#					</ul>#}
+    {#				</div>#}
+</div>
+</div>
+
+<div class="dropdown-divider"></div>
+
+<div class="container mtop" id="2">
+    <div class="row">
+    <div class="card container text-center mtop">
+            <div class="card-body">
+                {% for text in runetext[3] %}
+                    {{ text }}
+                {% endfor %}
+            </div>
+    </div>
+        <div class="col-6">
+            {% for row in mainRune2 %}
+                <ul class="list-group list-group-horizontal justify-content-center">
+                    {% for imgID in row %}
+                        {% if imgID in selectedRumeImgIDs[2] %}
+                            <li class="list-group-item active" title="RuneName"><img
+                                    src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png"
+                                    height="32"></li>
+                        {% else %}
+                            <li class="list-group-item" title="RuneName"><img
+                                    src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png"
+                                    height="32"></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+        <div class="col-6">
+            {% for row in subRune2[1:] %}
+                <ul class="list-group list-group-horizontal justify-content-center">
+                    {% for imgID in row %}
+                        {% if imgID in selectedRumeImgIDs[3] %}
+                            <li class="list-group-item active" title="RuneName"><img
+                                    src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png"
+                                    height="32"></li>
+                        {% else %}
+                            <li class="list-group-item" title="RuneName"><img
+                                    src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/{{ imgID }}.png"
+                                    height="32"></li>
+                        {% endif %}{% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+
+        {#				<div class="col-2">#}
+        {#					<ul class="list-group list-group-flush justify-content-center">#}
+        {#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
+        {#							 height="32"></li>#}
+        {#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
+        {#							 height="32"></li>#}
+        {#						<li class="list-group-item" title="OFFENSE"><img src="//lol.qq.com/act/a20170926preseason/img/runeBuilder/runes/108x108/5008.png"#}
+        {#							 height="32"></li>#}
+        {#					</ul>#}
+        {#				</div>#}
+    </div>
+</div>
+
+
+<div class="dropdown-divider"></div>
+</body>
 </html>
