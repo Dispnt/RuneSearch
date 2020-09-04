@@ -1,6 +1,7 @@
+import datetime
 from RunePageExtract import *
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import requests
 import sqlite3
 
@@ -9,11 +10,24 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 heroList = requests.post("https://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js").json()
+lastUpdateDate = datetime.datetime.now()
+
 header = {
     'User-Agent': 'Mozilla/5.0 (Linux; Android 4.4.2; R8207 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36; OP.GG Mobile Android (4.8.0); X-DEVICE-WIDTH=540',
     'Accept-Language': 'zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3'
 }
+def stringtodatetime(Datestr):
+    datetime.datetime.strptime(Datestr,'%Y-%m-%d %H:%M')
 
+@app.route('/update')
+def update_heroList():
+    global heroList,lastUpdateDate
+    newUpdateDate = datetime.datetime.now()
+    if(lastUpdateDate.day - newUpdateDate.day >=3):
+        heroList = requests.post("https://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js").json()
+        lastUpdateDate = newUpdateDate
+    else:
+        return redirect(url_for("main"))
 
 def brief(championName):
     url = 'http://www.op.gg/champion/' + championName + '/statistics/'
@@ -28,7 +42,8 @@ def main():
     db = sqlite3.connect("ChampionNickname.sqlite")
     crsr = db.execute("select * from Name")
     championNickname = dict(crsr.fetchall())
-    return render_template("MainBootstrap4.html", heroList=heroList, championNickname=championNickname)
+
+    return render_template("MainBootstrap4.html", heroList=heroList,lastUpdateDate=lastUpdateDate.strftime('%Y-%m-%d %H:%M'),championNickname=championNickname)
 
 @app.route('/rune')
 def runeClicked():
@@ -60,11 +75,6 @@ def briefClicked():
     championName = request.args.get('championName')
     return brief(championName)
 
-@app.route('/item')
-def itemClicked():
-    return("NOT COMPLETED YET")
-    #championName = request.args.get('championName')
-    #return item(championName)
 
 if __name__ == '__main__':
     app.run()
