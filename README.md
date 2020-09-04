@@ -15,7 +15,6 @@ python app.py
 [Demo][1]</br>
 
 
-<del>这样某tias就不会来不及点天赋了</del>
 
 
   [1]: https://opgg.dispnt.com
