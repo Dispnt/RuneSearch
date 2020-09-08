@@ -16,16 +16,16 @@ header = {
     'User-Agent': 'Mozilla/5.0 (Linux; Android 4.4.2; R8207 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36; OP.GG Mobile Android (4.8.0); X-DEVICE-WIDTH=540',
     'Accept-Language': 'zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3'
 }
-def stringtodatetime(Datestr):
-    datetime.datetime.strptime(Datestr,'%Y-%m-%d %H:%M')
+
 
 @app.route('/update')
 def update_heroList():
     global heroList,lastUpdateDate
     newUpdateDate = datetime.datetime.now()
-    if(lastUpdateDate.day - newUpdateDate.day >=3):
+    if(newUpdateDate.day - lastUpdateDate.day >=3):
         heroList = requests.post("https://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js").json()
         lastUpdateDate = newUpdateDate
+        return redirect(url_for("main"))
     else:
         return redirect(url_for("main"))
 
@@ -58,6 +58,12 @@ def runeClicked():
     return render_template("rune.html", mainRune1=MainRune1, subRune1=SubRune1, mainRune2=MainRune2, subRune2=SubRune2,
                            selectedRumeImgIDs=selectedRuneImgIDs, runetext=selectedRuneNames)
 
+@app.route('/preview')
+def preview():
+    a = request.args.get('Championname')
+    (selectedRuneNames, selectedRuneImgIDs) = rune(a)
+    result = ','.join(selectedRuneNames[1])
+    return jsonify(result)
 
 # {"1":["8112","8126","8138","8105","8234","8236"],
 # "2":["8112","8126","8138","8105","8234","8236"],

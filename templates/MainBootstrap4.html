@@ -4,11 +4,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta charset="UTF-8">
     <title>Search OP.GG...</title>
-    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
             $("#searchChampionTextbox").on("keyup", function() {
                 var searchChampionText = $("#searchChampionTextbox").val();
                 $("#searchChampionTextbox").focus(function(){
@@ -17,13 +19,27 @@
                 $(".championDiv").hide();
                 $(".championDiv[name*='"+searchChampionText+"']").show();
             });
+            $('.championDiv').hover(function () {
+                var championName = $(this).attr('name').split(" ")[1]
+                $.getJSON('/preview', {
+                    'Championname': $(this).attr('id')
+                }, function(data) {
+                    console.log($('.championDiv').attr('id'))
+                    $("#RunePreviewTextDiv").html(championName + ":<br>" + data);
+                }
+            )
+                return false;
+            })
         });
+
     </script>
     <style>
     </style>
 </head>
 <body>
-
+       <div  class="alert alert-success" style="position: fixed;z-index: 2;width: 500px; bottom: 10px; opacity:80%">
+        <a class="alert-link" id="RunePreviewTextDiv">鼠标停留查看符文...</a>
+    </div>
     <div class="container panel panel-default" style="margin-top: 20px " >
           <input type="text" class="form-control form-control-lg" id="searchChampionTextbox" placeholder="查询英雄...">
     </div>
