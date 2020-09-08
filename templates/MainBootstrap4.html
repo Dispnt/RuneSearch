@@ -19,16 +19,20 @@
                 $(".championDiv").hide();
                 $(".championDiv[name*='"+searchChampionText+"']").show();
             });
+            var timer = null;
             $('.championDiv').hover(function () {
-                var championName = $(this).attr('name').split(" ")[1]
-                $.getJSON('/preview', {
-                    'Championname': $(this).attr('id')
-                }, function(data) {
-                    console.log($('.championDiv').attr('id'))
-                    $("#RunePreviewTextDiv").html(championName + ":<br>" + data);
-                }
-            )
-                return false;
+                var championName = $(this).attr('name').split(" ")[2]
+                var championID = $(this).attr('id')
+                timer = setTimeout(function(){
+                    $.getJSON('/preview', {
+                        'Championname': championID
+                    }, function(data) {
+                        console.log($('.championDiv').attr('id'))
+                        $("#RunePreviewTextDiv").html(championName + ":<br>" + data);
+                    }
+                )},200);
+                },function(){
+                    clearTimeout(timer);
             })
         });
 
