@@ -37,5 +37,5 @@ for i in support.find_all("div",class_="champion-index-table__name"):
 lists = ['topRank', 'jungleRank', 'midRank','adcRank','supportRank']
 
 data = {listname: globals()[listname] for listname in lists}
-print(midRank)
+
 print(json.dumps(data))
