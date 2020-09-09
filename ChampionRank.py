@@ -7,35 +7,34 @@ header = {
 }
 url = "https://www.op.gg/champion/statistics"
 
-sourcecode = requests.get(url,headers=header).text
+sourcecode = requests.get(url, headers=header).text
 soup = BeautifulSoup(sourcecode, "html.parser")
 
-topRank=[]
-jungleRank =[]
-midRank = []
-adcRank=[]
-supportRank = []
+Top = []
+Jungle = []
+Mid = []
+Adc = []
+Support = []
 
-top = soup.find("tbody",class_="tabItem champion-trend-tier-TOP")
-jungle = soup.find("tbody",class_="tabItem champion-trend-tier-JUNGLE")
-mid = soup.find("tbody",class_="tabItem champion-trend-tier-MID")
-adc = soup.find("tbody",class_="tabItem champion-trend-tier-ADC")
-support = soup.find("tbody",class_="tabItem champion-trend-tier-SUPPORT")
+topHtml = soup.find("tbody", class_="tabItem champion-trend-tier-TOP")
+jungleHtml = soup.find("tbody", class_="tabItem champion-trend-tier-JUNGLE")
+midHtml = soup.find("tbody", class_="tabItem champion-trend-tier-MID")
+adcHtml = soup.find("tbody", class_="tabItem champion-trend-tier-ADC")
+supportHtml = soup.find("tbody", class_="tabItem champion-trend-tier-SUPPORT")
 
+for championName in topHtml.find_all("div", class_="champion-index-table__name"):
+    Top.append(championName.get_text())
+for championName in jungleHtml.find_all("div", class_="champion-index-table__name"):
+    Jungle.append(championName.get_text())
+for championName in midHtml.find_all("div", class_="champion-index-table__name"):
+    Mid.append(championName.get_text())
+for championName in adcHtml.find_all("div", class_="champion-index-table__name"):
+    Adc.append(championName.get_text())
+for championName in supportHtml.find_all("div", class_="champion-index-table__name"):
+    Support.append(championName.get_text())
 
-for i in top.find_all("div",class_="champion-index-table__name"):
-    topRank.append(i.get_text())
-for i in jungle.find_all("div",class_="champion-index-table__name"):
-    jungleRank.append(i.get_text())
-for i in mid.find_all("div",class_="champion-index-table__name"):
-    midRank.append(i.get_text())
-for i in adc.find_all("div",class_="champion-index-table__name"):
-    adcRank.append(i.get_text())
-for i in support.find_all("div",class_="champion-index-table__name"):
-    supportRank.append(i.get_text())
+posList = ["Top", "Jungle", "Mid", "Adc", "Support"]
 
-lists = ['topRank', 'jungleRank', 'midRank','adcRank','supportRank']
-
-data = {listname: globals()[listname] for listname in lists}
+data = {pos: globals()[pos] for pos in posList}
 
 print(json.dumps(data))
