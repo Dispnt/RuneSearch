@@ -1,10 +1,10 @@
 import datetime
 from RunePageExtract import *
+from ChampionRank import *
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import requests
 import sqlite3
-
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -20,14 +20,15 @@ header = {
 
 @app.route('/update')
 def update_heroList():
-    global heroList,lastUpdateDate
+    global heroList, lastUpdateDate
     newUpdateDate = datetime.datetime.now()
-    if(newUpdateDate.day - lastUpdateDate.day >=3):
+    if (newUpdateDate.day - lastUpdateDate.day >= 3):
         heroList = requests.post("https://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js").json()
         lastUpdateDate = newUpdateDate
         return redirect(url_for("main"))
     else:
         return redirect(url_for("main"))
+
 
 def brief(championName):
     url = 'http://www.op.gg/champion/' + championName + '/statistics/'
@@ -37,13 +38,28 @@ def brief(championName):
     content = soup.prettify()
     return content
 
+
+def characterRemove(o):
+    characters_to_remove = "' \0 .&"
+    result = o
+    for character in characters_to_remove:
+        result = [s.replace(character,"") for s in result]
+    return result
+
+
 @app.route('/')
 def main():
     db = sqlite3.connect("ChampionNickname.sqlite")
     crsr = db.execute("select * from Name")
     championNickname = dict(crsr.fetchall())
+    (topRank, jungleRank, midRank, adcRank, supportRank) = championRank()
+    return render_template("MainBootstrap4.html", heroList=heroList,
+                           lastUpdateDate=lastUpdateDate.strftime('%Y-%m-%d %H:%M'), championNickname=championNickname,
+                           topRank=characterRemove(topRank), jungleRank=characterRemove(jungleRank),
+                           midRank=characterRemove(midRank), adcRank=characterRemove(adcRank),
+                           supportRank=characterRemove(supportRank))
 
-    return render_template("MainBootstrap4.html", heroList=heroList,lastUpdateDate=lastUpdateDate.strftime('%Y-%m-%d %H:%M'),championNickname=championNickname)
+
 
 @app.route('/rune')
 def runeClicked():
@@ -58,12 +74,14 @@ def runeClicked():
     return render_template("rune.html", mainRune1=MainRune1, subRune1=SubRune1, mainRune2=MainRune2, subRune2=SubRune2,
                            selectedRumeImgIDs=selectedRuneImgIDs, runetext=selectedRuneNames)
 
+
 @app.route('/preview')
 def preview():
     a = request.args.get('Championname')
     (selectedRuneNames, selectedRuneImgIDs) = rune(a)
     result = ','.join(selectedRuneNames[1])
     return jsonify(result)
+
 
 # {"1":["8112","8126","8138","8105","8234","8236"],
 # "2":["8112","8126","8138","8105","8234","8236"],
