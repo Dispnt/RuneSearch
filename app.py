@@ -40,7 +40,7 @@ def brief(championName):
 
 
 def characterRemove(o):
-    characters_to_remove = "' \0 .&"
+    characters_to_remove = "'\0 .&"
     result = o
     for character in characters_to_remove:
         result = [s.replace(character,"") for s in result]
