@@ -53,7 +53,7 @@ def main():
     crsr = db.execute("select * from Name")
     championNickname = dict(crsr.fetchall())
     (topRank, jungleRank, midRank, adcRank, supportRank) = championRank()
-    return render_template("MainBootstrap4.html", heroList=heroList,
+    return render_template("index.html", heroList=heroList,
                            lastUpdateDate=lastUpdateDate.strftime('%Y-%m-%d %H:%M'), championNickname=championNickname,
                            topRank=characterRemove(topRank), jungleRank=characterRemove(jungleRank),
                            midRank=characterRemove(midRank), adcRank=characterRemove(adcRank),
