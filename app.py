@@ -76,6 +76,7 @@ def runeClicked():
 
 
 @app.route('/preview')
+@app.route('/api')
 def preview():
     championName = request.args.get('Championname')
     (selectedRuneNames, selectedRuneImgIDs) = rune(championName)
