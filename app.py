@@ -64,7 +64,7 @@ def main():
 @app.route('/rune')
 def runeClicked():
     championName = request.args.get('championName')
-    (selectedRuneNames, selectedRuneImgIDs) = rune(championName=championName)
+    (selectedRuneNames, selectedRuneImgIDs) = rune(championName)
     MainRune1 = runeType(selectedRuneImgIDs[1][1])
     SubRune1 = runeType(selectedRuneImgIDs[1][4])
 
@@ -78,7 +78,7 @@ def runeClicked():
 @app.route('/preview')
 @app.route('/api')
 def preview():
-    championName = request.args.get('Championname')
+    championName = request.args.get('championName')
     (selectedRuneNames, selectedRuneImgIDs) = rune(championName)
     result = ','.join(selectedRuneNames[1])
     return jsonify(result)

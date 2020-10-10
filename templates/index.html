@@ -25,7 +25,7 @@
                 var championID = $(this).attr('id')
                 timer = setTimeout(function(){
                     $.getJSON('/preview', {
-                            'Championname': championID
+                            'championName': championID
                         }, function(data) {
                             console.log($('.championDiv').attr('id'))
                             $("#RunePreviewTextDiv").html(championName + ":<br>" + data);
