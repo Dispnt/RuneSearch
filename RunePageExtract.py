@@ -33,7 +33,7 @@ precisionImg = [["8005", "8008", "8021", "8010"],
                 ["8014", "8017", "8299"]]  # 精密黄
 
 
-def rune(championName):
+def rune(championName,requireNameOnly=False):
     SelectedRuneName = {}
     SelectedRuneImgLink = []
     SelectedRuneImgID = {}
@@ -51,15 +51,20 @@ def rune(championName):
             key_and_count = [key_and_count[0] + 1, 1]
             SelectedRuneName.setdefault(key_and_count[0], []).append(SelectedRune.find('img')['alt'])
         key_and_count[1] = key_and_count[1] + 1
-    key_and_count = [1, 1]
-    for SelectedRune in SelectedRuneImgLink:
-        if key_and_count[1] <= 6:
-            SelectedRuneImgID.setdefault(key_and_count[0], []).append(re.findall(r"\d\d\d\d", SelectedRune)[0])
-        else:
-            key_and_count = [key_and_count[0] + 1, 1]
-            SelectedRuneImgID.setdefault(key_and_count[0], []).append(re.findall(r"\d\d\d\d", SelectedRune)[0])
-        key_and_count[1] = key_and_count[1] + 1
-    return SelectedRuneName, SelectedRuneImgID
+    if not requireNameOnly:
+        key_and_count = [1, 1]
+        for SelectedRune in SelectedRuneImgLink:
+            if key_and_count[1] <= 6:
+                SelectedRuneImgID.setdefault(key_and_count[0], []).append(re.findall(r"\d\d\d\d", SelectedRune)[0])
+            else:
+                key_and_count = [key_and_count[0] + 1, 1]
+                SelectedRuneImgID.setdefault(key_and_count[0], []).append(re.findall(r"\d\d\d\d", SelectedRune)[0])
+            key_and_count[1] = key_and_count[1] + 1
+
+        return SelectedRuneName, SelectedRuneImgID
+    else:
+        return SelectedRuneName
+
 
 
 
