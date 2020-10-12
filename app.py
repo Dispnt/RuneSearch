@@ -22,7 +22,7 @@ header = {
 def update_heroList():
     global heroList, lastUpdateDate
     newUpdateDate = datetime.datetime.now()
-    if (newUpdateDate.day - lastUpdateDate.day >= 3):
+    if (newUpdateDate.day - lastUpdateDate.day > 2):
         heroList = requests.post("https://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js").json()
         lastUpdateDate = newUpdateDate
         return redirect(url_for("main"))
@@ -77,8 +77,8 @@ def runeClicked():
 
 @app.route('/preview')
 def preview():
-    a = request.args.get('Championname')
-    (selectedRuneNames, selectedRuneImgIDs) = rune(a)
+    championName = request.args.get('Championname')
+    (selectedRuneNames, selectedRuneImgIDs) = rune(championName)
     result = ','.join(selectedRuneNames[1])
     return jsonify(result)
 
