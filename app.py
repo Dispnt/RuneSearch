@@ -85,8 +85,8 @@ def preview():
 @app.route('/api')
 def api():
     championName = request.args.get('championName')
-    selectedRuneNames = rune(championName, requireNameOnly=True)
-    return jsonify(selectedRuneNames)
+    (selectedRuneNames, selectedRuneImgIDs) = rune(championName, requireNameOnly=False)
+    return jsonify(selectedRuneNames, selectedRuneImgIDs)
 
 # {"1":["8112","8126","8138","8105","8234","8236"],
 # "2":["8112","8126","8138","8105","8234","8236"],

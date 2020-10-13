@@ -60,7 +60,6 @@ def rune(championName,requireNameOnly=False):
                 key_and_count = [key_and_count[0] + 1, 1]
                 SelectedRuneImgID.setdefault(key_and_count[0], []).append(re.findall(r"\d\d\d\d", SelectedRune)[0])
             key_and_count[1] = key_and_count[1] + 1
-
         return SelectedRuneName, SelectedRuneImgID
     else:
         return SelectedRuneName
